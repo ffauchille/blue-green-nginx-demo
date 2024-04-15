@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  blue-green:
+    image: nginx:1.24-bullseye
+    container_name: blue-green
+    volumes:
+      - /etc/nginx/sites-enabled
+      - /usr/share/nginx/html/blue
+      - /usr/share/nginx/html/green
+      - ./nginx/blue.conf:/etc/nginx/sites-available/blue.conf
+      - ./nginx/green.conf:/etc/nginx/sites-available/green.conf
+      - ./nginx/sites-enabled.conf:/etc/nginx/conf.d/default.conf
+      - ./initial-state.html:/usr/share/nginx/html/index.html
+      - ./deploy-scripts:/code/deploy-scripts
+      - ./app-versions:/usr/share/nginx/html/app-versions
+    ports:
+      - 8001:80
